@@ -1,9 +1,7 @@
 // src/pages/Dashboard.jsx
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import WorkoutCard from "../components/WorkoutCard";
 import { useWorkouts } from "../context/WorkoutContext";
-import { exercises } from "../data/exercises";
 import {
   BarChart,
   Bar,
@@ -15,23 +13,8 @@ import {
 } from "recharts";
 
 export default function Dashboard() {
-  const { workouts, removeWorkout } = useWorkouts();
-  const sampleWeeklyData = [
-  { day: "Mon", workouts: 2 },
-  { day: "Tue", workouts: 1 },
-  { day: "Wed", workouts: 3 },
-  { day: "Thu", workouts: 2 },
-  { day: "Fri", workouts: 1 },
-  { day: "Sat", workouts: 0 },
-  { day: "Sun", workouts: 2 },
-];
+  const { workouts } = useWorkouts();
 
-  const [showAll, setShowAll] = useState(false);
-  const displayedExercises = showAll ? exercises : exercises.slice(0, 3);
-const sampleUpcomingWorkout = {
-  name: "Full Body Strength",
-  date: new Date().setDate(new Date().getDate() + 1), // tomorrow
-};
   // Stats
   const totalWorkouts = workouts.length;
   const totalCalories = workouts.reduce(
@@ -45,11 +28,7 @@ const sampleUpcomingWorkout = {
     0
   );
 
-  const recentWorkouts = [...workouts]
-    .sort((a, b) => new Date(b.date) - new Date(a.date))
-    .slice(0, 4);
-
-  // Weekly Summary with Recharts
+  // Weekly Summary
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const weeklyData = daysOfWeek.map((day, idx) => ({
     day,
@@ -96,79 +75,73 @@ const sampleUpcomingWorkout = {
   const dailyTip = tips[Math.floor(Math.random() * tips.length)];
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 space-y-8">
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 space-y-6">
+
       {/* Header */}
-      <header className="flex flex-col md:flex-row justify-between items-center gap-4">
+      <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-extrabold text-gray-800">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-gray-800">
             🏋️ Fitness Dashboard
           </h1>
-          <p className="text-gray-500 mt-1">Track your workouts & progress</p>
+          <p className="text-gray-500 mt-1 text-sm sm:text-base">
+            Track your workouts & progress
+          </p>
         </div>
         <Link
           to="/analytics"
-          className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold px-5 py-2 rounded-full shadow hover:scale-105 transition-transform"
+          className="mt-2 sm:mt-0 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold px-4 py-2 sm:px-5 sm:py-2 rounded-full shadow hover:scale-105 transition-transform text-sm sm:text-base"
         >
           View Analytics
         </Link>
       </header>
 
       {/* Stats Cards */}
-      <section className="grid md:grid-cols-4 gap-6">
-        <div className="card3d p-5 rounded-xl shadow-lg bg-gradient-to-br from-purple-500 to-indigo-500 text-white">
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <div className="card3d p-4 sm:p-5 rounded-xl shadow-lg bg-gradient-to-br from-purple-500 to-indigo-500 text-white">
           <h2 className="text-lg font-semibold">Total Workouts</h2>
-          <p className="text-3xl font-bold mt-1">{totalWorkouts}</p>
+          <p className="text-2xl sm:text-3xl font-bold mt-1">{totalWorkouts}</p>
         </div>
-        <div className="card3d p-5 rounded-xl shadow-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
+        <div className="card3d p-4 sm:p-5 rounded-xl shadow-lg bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
           <h2 className="text-lg font-semibold">Calories Burned</h2>
-          <p className="text-3xl font-bold mt-1">{totalCalories}</p>
+          <p className="text-2xl sm:text-3xl font-bold mt-1">{totalCalories}</p>
         </div>
-        <div className="card3d p-5 rounded-xl shadow-lg bg-gradient-to-br from-green-400 to-teal-500 text-white">
+        <div className="card3d p-4 sm:p-5 rounded-xl shadow-lg bg-gradient-to-br from-green-400 to-teal-500 text-white">
           <h2 className="text-lg font-semibold">Total Duration</h2>
-          <p className="text-3xl font-bold mt-1">{totalDuration} mins</p>
+          <p className="text-2xl sm:text-3xl font-bold mt-1">{totalDuration} mins</p>
         </div>
-        <div className="card3d p-5 rounded-xl shadow-lg bg-gradient-to-br from-pink-400 to-red-500 text-white">
+        <div className="card3d p-4 sm:p-5 rounded-xl shadow-lg bg-gradient-to-br from-pink-400 to-red-500 text-white">
           <h2 className="text-lg font-semibold">Active Days</h2>
-          <p className="text-3xl font-bold mt-1">
+          <p className="text-2xl sm:text-3xl font-bold mt-1">
             {new Set(workouts.map((w) => w.date)).size}
           </p>
         </div>
       </section>
 
-     
       {/* Weekly Summary */}
-      <section className="p-6 bg-white rounded-xl shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">📊 Weekly Summary</h2>
+      <section className="p-4 sm:p-6 bg-white rounded-xl shadow-lg overflow-x-auto">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">📊 Weekly Summary</h2>
         <ResponsiveContainer width="100%" height={250}>
           <BarChart
             data={weeklyData}
             margin={{ top: 10, right: 20, left: 0, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-            <XAxis
-              dataKey="day"
-              tick={{ fill: "#6b7280", fontSize: 14 }}
-            />
-            <YAxis tick={{ fill: "#6b7280", fontSize: 14 }} />
+            <XAxis dataKey="day" tick={{ fill: "#6b7280", fontSize: 12 }} />
+            <YAxis tick={{ fill: "#6b7280", fontSize: 12 }} />
             <Tooltip
               contentStyle={{ backgroundColor: "#f9fafb", borderRadius: 8 }}
               itemStyle={{ color: "#7c3aed", fontWeight: "bold" }}
             />
-            <Bar
-              dataKey="workouts"
-              fill="#7c3aed"
-              radius={[5, 5, 0, 0]}
-              barSize={40}
-            />
+            <Bar dataKey="workouts" fill="#7c3aed" radius={[5, 5, 0, 0]} barSize={30} />
           </BarChart>
         </ResponsiveContainer>
       </section>
 
       {/* Next Workout */}
       {upcomingWorkout && (
-        <section className="p-6 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold mb-2">⏱ Next Workout</h2>
-          <p className="text-gray-700">
+        <section className="p-4 sm:p-6 bg-gradient-to-r from-indigo-100 to-purple-100 rounded-xl shadow-lg">
+          <h2 className="text-xl sm:text-2xl font-bold mb-2">⏱ Next Workout</h2>
+          <p className="text-gray-700 text-sm sm:text-base">
             {upcomingWorkout.name} on{" "}
             {new Date(upcomingWorkout.date).toLocaleDateString(undefined, {
               weekday: "short",
@@ -181,24 +154,21 @@ const sampleUpcomingWorkout = {
       )}
 
       {/* Personal Bests */}
-      <section className="grid md:grid-cols-2 gap-6">
-        <div className="card3d p-6 bg-gradient-to-r from-green-100 to-teal-100 rounded-xl shadow-lg">
+      <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+        <div className="card3d p-4 sm:p-6 bg-gradient-to-r from-green-100 to-teal-100 rounded-xl shadow-lg">
           <h2 className="text-xl font-semibold mb-1">🔥 Max Calories Burned</h2>
-          <p className="text-3xl font-bold">{maxCaloriesWorkout}</p>
+          <p className="text-2xl sm:text-3xl font-bold">{maxCaloriesWorkout}</p>
         </div>
-        <div className="card3d p-6 bg-gradient-to-r from-yellow-100 to-orange-200 rounded-xl shadow-lg">
+        <div className="card3d p-4 sm:p-6 bg-gradient-to-r from-yellow-100 to-orange-200 rounded-xl shadow-lg">
           <h2 className="text-xl font-semibold mb-1">⏳ Longest Duration</h2>
-          <p className="text-3xl font-bold">{maxDurationWorkout} mins</p>
+          <p className="text-2xl sm:text-3xl font-bold">{maxDurationWorkout} mins</p>
         </div>
       </section>
 
-     
-
-
-      {/* Daily Fitness Tip */}
-      <section className="card3d p-6 bg-gradient-to-r from-indigo-200 to-purple-200 rounded-xl shadow-lg hover:scale-105">
-        <h3 className="text-xl font-semibold mb-2">💡 Daily Tip</h3>
-        <p>{dailyTip}</p>
+      {/* Daily Tip */}
+      <section className="card3d p-4 sm:p-6 bg-gradient-to-r from-indigo-200 to-purple-200 rounded-xl shadow-lg hover:scale-105">
+        <h3 className="text-lg sm:text-xl font-semibold mb-2">💡 Daily Tip</h3>
+        <p className="text-sm sm:text-base">{dailyTip}</p>
       </section>
     </div>
   );

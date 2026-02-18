@@ -32,17 +32,20 @@ export default function ExercisesPage() {
         💪  Exercises & Their Benefits
       </h1>
 
-      <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {exercises.map((ex, idx) => (
-          <div
-            key={idx}
-            className="bg-white p-5 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
-          >
-            <h3 className="text-xl font-semibold mb-2">{ex.name}</h3>
-            <p className="text-gray-600 text-sm leading-relaxed">{ex.benefit}</p>
-          </div>
-        ))}
+    <div className="px-4 sm:px-6 md:px-8 lg:px-10">
+  <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {exercises.map((ex, idx) => (
+      <div
+        key={idx}
+        className="bg-white p-5 rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+      >
+        <h3 className="text-xl font-semibold mb-2">{ex.name}</h3>
+        <p className="text-gray-600 text-sm leading-relaxed">{ex.benefit}</p>
       </div>
+    ))}
+  </div>
+</div>
+
 
       <div className="text-center mt-12 text-gray-600">
         <p>Stay consistent, perform exercises correctly, and combine with proper nutrition for best results!</p>

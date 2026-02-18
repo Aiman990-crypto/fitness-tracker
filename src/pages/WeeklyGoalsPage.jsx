@@ -1,5 +1,5 @@
 // src/pages/WeeklyGoalsPage.jsx
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useWorkouts } from "../context/WorkoutContext";
 
 export default function WeeklyGoalsPage() {
