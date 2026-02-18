@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* ===== 3D Card Hover ===== */
+.card3d {
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.card3d:hover {
+  transform: translateY(-6px) rotateX(4deg) rotateY(-4deg) scale(1.03);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+}
+
+/* ===== Horizontal Scroll for Workouts ===== */
+section > .flex {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(100,100,100,0.5) transparent;
+}
+
+section > .flex::-webkit-scrollbar {
+  height: 8px;
+}
+
+section > .flex::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+section > .flex::-webkit-scrollbar-thumb {
+  background-color: rgba(100,100,100,0.5);
+  border-radius: 4px;
+}
+
+/* ===== Workout Form 3D & Focus ===== */
+.form3d {
+  transform-style: preserve-3d;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.form3d:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+/* src/index.css or global CSS file */
+.react-datepicker-wrapper {
+  width: 100%; /* makes the calendar input full width */
+}
+/* Tailwind example */
+.sidebar {
+  @apply w-64 bg-white h-screen fixed left-0 top-0;
+}
+
+.main-content {
+  @apply ml-64; /* offset equal to sidebar width */
 }
